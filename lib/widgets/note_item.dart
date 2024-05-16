@@ -24,9 +24,9 @@ class NoteItem extends StatelessWidget {
               ),
               subtitle:const Padding(
                 padding: EdgeInsets.only(top: 8.0),
-                child:  Text(
+                  child:  Text(
                   'Build your career with tharwat samy',
-                  style: TextStyle(color: Color(0xff9C733D),fontSize: 18,),
+                  style: TextStyle(color: Color(0xff9C733D),fontSize: 16,),
                 ),
               ),
               trailing: IconButton(onPressed: () {}, icon: Icon(Icons.delete,color: Colors.black,size: 32,)),
