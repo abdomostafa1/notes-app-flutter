@@ -20,14 +20,14 @@ class EditNoteScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8.0),
+      body:  Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Column(
           children: [
-            SizedBox(height:24),
-            CustomTextField(hint: 'title'),
-            SizedBox(height:24),
-            CustomTextField(hint: 'content',maxLines: 5,)
+            const SizedBox(height:24),
+            CustomTextField(hint: 'title', onSave: (String? value) {  },),
+            const SizedBox(height:24),
+            CustomTextField(hint: 'content',maxLines: 5, onSave: (String? value) {  },)
           ]
         ),
       )
