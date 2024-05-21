@@ -18,7 +18,8 @@ class CustomButton extends StatelessWidget {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
         onPressed: onPressed,
         child: isLoading
-            ? const CircularProgressIndicator()
+            ? const SizedBox( width: 24,height: 24,
+            child:  CircularProgressIndicator(color: Colors.black,))
             : const Text(
                 'Add',
                 style: TextStyle(color: Colors.black),

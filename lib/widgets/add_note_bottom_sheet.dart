@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:notes_app/cubits/add_note_cubit/add_note_cubit.dart';
 import 'package:notes_app/models/note_model.dart';
 import 'package:notes_app/widgets/custom_button.dart';
 
+import '../cubits/main_cubit/main_cubit.dart';
 import 'custom_text_field.dart';
 
 class AddNoteBottomSheet extends StatefulWidget {
@@ -45,18 +45,12 @@ class _AddNoteBottomSheetContentState extends State<AddNoteBottomSheetContent> {
 
   @override
   Widget build(BuildContext context) {
-    BlocListener<AddNoteCubit, AddNoteState>(listener: (context, state) {
-      if (state is AddNoteSuccessState) {
-        Navigator.pop(context);
-      }
-
-      if (state is AddNoteFailureState) {
-        debugPrint('errorMessage=${state.errorMessage}');
-      }
-    });
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.only(
+          right: 16,
+          left: 16,
+          bottom: MediaQuery.of(context).viewInsets.bottom),
       child: SingleChildScrollView(
         child: Form(
           key: globalKey,
@@ -82,6 +76,17 @@ class _AddNoteBottomSheetContentState extends State<AddNoteBottomSheetContent> {
             const SizedBox(height: 32),
             BlocBuilder<AddNoteCubit, AddNoteState>(
               builder: (context, state) {
+                if (state is AddNoteSuccessState) {
+                  debugPrint('note added successfully');
+                  Navigator.pop(context);
+                  BlocProvider.of<MainCubit>(context).fetchNotes();
+                }
+
+                if (state is AddNoteFailureState) {
+                  debugPrint('errorMessage=${state.errorMessage}');
+                }
+
+                debugPrint('$state');
                 return CustomButton(
                   isLoading: state is AddNoteLoadingState ? true : false,
                   onPressed: () {
@@ -100,7 +105,6 @@ class _AddNoteBottomSheetContentState extends State<AddNoteBottomSheetContent> {
                 );
               },
             ),
-            const SizedBox(height: 200)
           ]),
         ),
       ),
