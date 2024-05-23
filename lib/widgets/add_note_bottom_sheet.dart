@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/cubits/add_note_cubit/add_note_cubit.dart';
 import 'package:notes_app/models/note_model.dart';
+import 'package:notes_app/notes_colors.dart';
+import 'package:notes_app/widgets/color_item.dart';
+import 'package:notes_app/widgets/colors_listview.dart';
 import 'package:notes_app/widgets/custom_button.dart';
 
 import '../cubits/main_cubit/main_cubit.dart';
@@ -44,8 +47,13 @@ class _AddNoteBottomSheetContentState extends State<AddNoteBottomSheetContent> {
   var autoValidateMode = AutovalidateMode.disabled;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    selectedColorIndex = 0;
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
           right: 16,
@@ -74,19 +82,11 @@ class _AddNoteBottomSheetContentState extends State<AddNoteBottomSheetContent> {
               },
             ),
             const SizedBox(height: 32),
+            const ColorsListview(),
+            const SizedBox(height: 32),
             BlocBuilder<AddNoteCubit, AddNoteState>(
               builder: (context, state) {
-                if (state is AddNoteSuccessState) {
-                  debugPrint('note added successfully');
-                  Navigator.pop(context);
-                  BlocProvider.of<MainCubit>(context).fetchNotes();
-                }
-
-                if (state is AddNoteFailureState) {
-                  debugPrint('errorMessage=${state.errorMessage}');
-                }
-
-                debugPrint('$state');
+                handleState(state);
                 return CustomButton(
                   isLoading: state is AddNoteLoadingState ? true : false,
                   onPressed: () {
@@ -96,7 +96,7 @@ class _AddNoteBottomSheetContentState extends State<AddNoteBottomSheetContent> {
                         title: title!,
                         subTitle: subTitle!,
                         date: DateTime.now().toString(),
-                        color: Colors.orange.value,
+                        color: colors[selectedColorIndex].value,
                       );
                       BlocProvider.of<AddNoteCubit>(context).addNote(note);
                     }
@@ -109,5 +109,19 @@ class _AddNoteBottomSheetContentState extends State<AddNoteBottomSheetContent> {
         ),
       ),
     );
+  }
+
+  void handleState(AddNoteState state) {
+    if (state is AddNoteSuccessState) {
+      debugPrint('note added successfully');
+      Navigator.pop(context);
+      BlocProvider.of<MainCubit>(context).fetchNotes();
+    }
+
+    if (state is AddNoteFailureState) {
+      debugPrint('errorMessage=${state.errorMessage}');
+    }
+
+    debugPrint('$state');
   }
 }

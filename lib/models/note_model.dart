@@ -8,9 +8,9 @@ class NoteModel extends HiveObject {
   NoteModel({required this.title,required this.subTitle, required this.date ,required this.color});
 
   @HiveField(0)
-  final String title;
+  String title;
   @HiveField(1)
-  final String subTitle;
+  String subTitle;
   @HiveField(2)
   final String date;
   @HiveField(3)

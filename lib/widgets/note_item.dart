@@ -12,7 +12,8 @@ class NoteItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, Routes.editNoteScreen),
+      onTap: () =>
+          Navigator.pushNamed(context, Routes.editNoteScreen, arguments: note),
       child: Container(
           padding: EdgeInsets.only(top: 16, bottom: 16, left: 16),
           decoration: BoxDecoration(
