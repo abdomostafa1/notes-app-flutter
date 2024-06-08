@@ -47,12 +47,6 @@ class _AddNoteBottomSheetContentState extends State<AddNoteBottomSheetContent> {
   var autoValidateMode = AutovalidateMode.disabled;
 
   @override
-  void initState() {
-    selectedColorIndex = 0;
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
@@ -96,7 +90,7 @@ class _AddNoteBottomSheetContentState extends State<AddNoteBottomSheetContent> {
                         title: title!,
                         subTitle: subTitle!,
                         date: DateTime.now().toString(),
-                        color: colors[selectedColorIndex].value,
+                        color: colors[BlocProvider.of<AddNoteCubit>(context).selectedColorIndex].value,
                       );
                       BlocProvider.of<AddNoteCubit>(context).addNote(note);
                     }
